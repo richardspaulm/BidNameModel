@@ -1,0 +1,6 @@
+/__pycache__
+/.vscode
+/model_checkpoints
+/text_checkpoints
+/*.png
+/*csv
