@@ -12,20 +12,25 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 tf.logging.set_verbosity(tf.logging.ERROR)
 
-def create_datasets(filename):
-    data = pd.read_csv(filename, index_col=0)
-    # data = data.drop([2151784])
 
+def create_datasets(filename, index_col=0):
+    data = pd.read_csv(filename, index_col=None)
     data.Labels = data.Labels.astype(int)
+    
+    data_len = len(data.iloc[:, 0])
+    train_ratio = 0.7
 
+    train_len = int(data_len * train_ratio)
+    test_len = data_len - train_len
     data = data.reindex(np.random.permutation(data.index))
-    train_df = data.head(120000)
-    test_df = data.tail(30000)
+    train_df = data.head(train_len)
+    test_df = data.tail(test_len)
     return train_df, test_df
 
 print("Creating Datasets")
-train_df, test_df = create_datasets("additional_formatted.csv")
-train_df.head()
+train_df, test_df = create_datasets("Data.csv")
+print(train_df.head())
+exit()
 
 
 # Training input on the whole training set with no limit on training epochs.
